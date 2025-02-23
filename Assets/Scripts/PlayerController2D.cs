@@ -4,12 +4,14 @@ public class PlayerController2D : MonoBehaviour
 {
     // Public variables
     public float speed = 5f; // The speed at which the player moves
-    public bool canMoveDiagonally = true; // Controls whether the player can move diagonally
+    // public Animator animator;
+    public Transform actionPoint;
+    public float actionRange = 0.5f;
+    public LayerMask soilLayers;
 
     // Private variables 
     private Rigidbody2D rb; // Reference to the Rigidbody2D component attached to the player
     private Vector2 movement; // Stores the direction of player movement
-    private bool isMovingHorizontally = true; // Flag to track if the player is moving horizontally
 
     void Start()
     {
@@ -21,41 +23,21 @@ public class PlayerController2D : MonoBehaviour
 
     void Update()
     {
+    // TODO : mettre dans une fonction Move ---
+    // TODO : utiliser des Action à la place
         // Get player input from keyboard or controller
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         float verticalInput = Input.GetAxisRaw("Vertical");
 
-        // Check if diagonal movement is allowed
-        if (canMoveDiagonally)
-        {
-            // Set movement direction based on input
-            movement = new Vector2(horizontalInput, verticalInput);
-            // Optionally rotate the player based on movement direction
-            RotatePlayer(horizontalInput, verticalInput);
-        }
-        else
-        {
-            // Determine the priority of movement based on input
-            if (horizontalInput != 0)
-            {
-                isMovingHorizontally = true;
-            }
-            else if (verticalInput != 0)
-            {
-                isMovingHorizontally = false;
-            }
+        // Set movement direction based on input
+        movement = new Vector2(horizontalInput, verticalInput);
+        // Optionally rotate the player based on movement direction
+        RotatePlayer(horizontalInput, verticalInput);
+    // ---
 
-            // Set movement direction and optionally rotate the player
-            if (isMovingHorizontally)
-            {
-                movement = new Vector2(horizontalInput, 0);
-                RotatePlayer(horizontalInput, 0);
-            }
-            else
-            {
-                movement = new Vector2(0, verticalInput);
-                RotatePlayer(0, verticalInput);
-            }
+        if(Input.GetKeyDown(KeyCode.Space)){
+            // TODO : dépend du type d'objet que le joueur tient
+            Watering();
         }
     }
 
@@ -74,5 +56,26 @@ public class PlayerController2D : MonoBehaviour
         float angle = Mathf.Atan2(y, x) * Mathf.Rad2Deg;
         // Apply the rotation to the player
         transform.rotation = Quaternion.Euler(0, 0, angle);
+    }
+
+    void Watering(){
+    // TODO animation
+        // animator.SetTrigger("Watering");  
+
+    // TODO objects in the range
+        Collider2D[] soilsWatering = Physics2D.OverlapCircleAll(actionPoint.position, actionRange, soilLayers);
+        // TODO équivalent 3D à appliquer pour Cubi : Physics.OverlapSphere()
+
+    // TODO réaliser l'action
+        foreach(Collider2D soil in soilsWatering){
+            soil.GetComponent<Soil>().TakeWater();
+            Debug.Log("Watering " + soil.gameObject.name); // utiliser un booléen
+        }
+    }
+
+    // trace le périmètre de l'objet, pour du débug
+    void OnDrawGizmosSelected(){
+        if(actionPoint == null) return;
+        Gizmos.DrawWireSphere(actionPoint.position, actionRange);
     }
 }
