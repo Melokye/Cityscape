@@ -4,25 +4,21 @@ public class PlayerController2D : MonoBehaviour
 {
     // Public variables
     public float speed = 5f; // The speed at which the player moves
-    // public Animator animator;
+    // public Animator animator; // TODO insert animation
     public Transform actionPoint;
     public float actionRange = 0.5f;
     public LayerMask soilLayers;
 
     // Private variables 
-    private Rigidbody2D rb; // Reference to the Rigidbody2D component attached to the player
-    private Vector2 movement; // Stores the direction of player movement
+    private Rigidbody2D rb;     // Reference to the Rigidbody2D component attached to the player
+    private Vector2 movement;   // Stores the direction of player movement
 
-    void Start()
-    {
-        // Initialize the Rigidbody2D component
-        rb = GetComponent<Rigidbody2D>();
-        // Prevent the player from rotating
-        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+    void Start(){
+        rb = GetComponent<Rigidbody2D>();                           // Initialize the Rigidbody2D component
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;     // Prevent the player from rotating
     }
 
-    void Update()
-    {
+    void Update(){
     // TODO : mettre dans une fonction Move ---
     // TODO : utiliser des Action à la place
         // Get player input from keyboard or controller
@@ -35,14 +31,18 @@ public class PlayerController2D : MonoBehaviour
         RotatePlayer(horizontalInput, verticalInput);
     // ---
 
+        // TODO : dépend du type d'objet que le joueur tient
+        // TODO : utiliser des triggers
         if(Input.GetKeyDown(KeyCode.Space)){
-            // TODO : dépend du type d'objet que le joueur tient
             Watering();
+        }else if(Input.GetKeyDown(KeyCode.Keypad1)){
+            Seed();
+        }else if(Input.GetKeyDown(KeyCode.Keypad2)){
+            Harvest();
         }
     }
 
-    void FixedUpdate()
-    {
+    void FixedUpdate(){
         // Apply movement to the player in FixedUpdate for physics consistency
         rb.linearVelocity = movement * speed;
     }
@@ -58,19 +58,38 @@ public class PlayerController2D : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 
-    void Watering(){
+    void Watering(){ // TODO fonction abstraite -> Action
     // TODO animation
         // animator.SetTrigger("Watering");  
 
-    // TODO objects in the range
         Collider2D[] soilsWatering = Physics2D.OverlapCircleAll(actionPoint.position, actionRange, soilLayers);
-        // TODO équivalent 3D à appliquer pour Cubi : Physics.OverlapSphere()
 
-    // TODO réaliser l'action
         foreach(Collider2D soil in soilsWatering){
             soil.GetComponent<Soil>().TakeWater();
-            Debug.Log("Watering " + soil.gameObject.name); // utiliser un booléen
+            Debug.Log("Watering " + soil.gameObject.name);
         }
+    }
+
+    void Seed(){ // TODO fonction abstraite -> Action, à supp après
+        // TODO animation
+            // animator.SetTrigger("Watering");  
+
+            Collider2D[] soils = Physics2D.OverlapCircleAll(actionPoint.position, actionRange, soilLayers);
+
+            foreach(Collider2D soil in soils){
+                soil.GetComponent<Soil>().Seed();
+            }
+    }
+
+    void Harvest(){ // TODO fonction abstraite -> Action, à supp après
+        // TODO animation
+            // animator.SetTrigger("Watering");  
+
+            Collider2D[] soils = Physics2D.OverlapCircleAll(actionPoint.position, actionRange, soilLayers);
+
+            foreach(Collider2D soil in soils){
+                soil.GetComponent<Soil>().Harvest();
+            }
     }
 
     // trace le périmètre de l'objet, pour du débug
