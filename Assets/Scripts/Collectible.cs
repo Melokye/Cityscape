@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Collectible : MonoBehaviour
 {
+    public CollectibleType type;
     // public float rotationSpeed = 0.5f;
     public GameObject onCollectEffect;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -19,15 +20,19 @@ public class Collectible : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        
-         // Check if the other object has a PlayerController2D component
-        if (other.GetComponent<PlayerController2D>() != null) {
-            
-            // Destroy the collectible
+        Player player = other.GetComponent<Player>();
+
+        if (player != null) { // TODO null non nécessaire
+            player._inventory.Add(type);
             Destroy(gameObject);
 
             // Instantiate the particle effect
             // Instantiate(onCollectEffect, transform.position, transform.rotation);
         }
     }
+}
+
+public enum CollectibleType{
+    // TODO rename to seed?
+    NONE, SEED
 }
