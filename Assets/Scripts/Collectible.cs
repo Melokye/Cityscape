@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class Collectible : MonoBehaviour
 {
-    public CollectibleType type;
+    public CollectibleType type = CollectibleType.NONE;
+    public Sprite icon;
     // public float rotationSpeed = 0.5f;
-    public GameObject onCollectEffect;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    // public GameObject onCollectEffect;
 
     // Update is called once per frame
     void Update()
@@ -23,7 +19,7 @@ public class Collectible : MonoBehaviour
         Player player = other.GetComponent<Player>();
 
         if (player != null) { // TODO null non nécessaire
-            player._inventory.Add(type);
+            player.inventory.Add(this);
             Destroy(gameObject);
 
             // Instantiate the particle effect

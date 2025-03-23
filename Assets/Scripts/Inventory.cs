@@ -6,13 +6,22 @@ public class Inventory
 {
     [System.Serializable]
     public class Slot{
-        // TODO bonne idée de faire ça ? -> créer un script à part
-        public CollectibleType _type;
+        // TODO bonne idée de faire ça ? -> créer un script à part ?
+        // TODO possible de combiner itemType et itemIcon ?
+        public CollectibleType itemType;
+        public Sprite itemIcon; 
         public int _count;
         public int _maxAllowed;
 
-        public Slot(CollectibleType item = CollectibleType.NONE){
-            _type = item;
+        public Slot(Collectible someItem = null){
+            if(someItem != null){
+                itemType = someItem.type;
+                itemIcon = someItem.icon;
+            }else{
+                // TODO améliorable ?
+                itemType = CollectibleType.NONE;
+                itemIcon = null;
+            }
             _count = 0;
             _maxAllowed = 10;
         }
@@ -24,33 +33,35 @@ public class Inventory
             _count++;
         }
 
-        public void AddNewItem(CollectibleType item){
-            _type = item;
+        public void AddItem(Collectible someItem){
+            itemType = someItem.type;
+            itemIcon = someItem.icon;
             AddItem();
         }
     }
 
-    public List<Slot> _slots = new List<Slot>();
-
+    public List<Slot> slots = new List<Slot>();
 
     public Inventory(int nbSlots){
         for(int i = 0; i < nbSlots; i++){
-            _slots.Add(new Slot());
+            slots.Add(new Slot());
         }
     }
 
-    public void Add(CollectibleType someItem){
+    public void Add(Collectible someItem){
         // TODO return bool?
         // TODO utiliser un dictionnaire à la place ?
         // public Dictionary<CollectibleType, int> _slots = new Dictionary<CollectibleType, int>();
-        foreach(Slot item in _slots){
-            if(someItem == item._type && item.stillSpace()){
-                item.AddItem();
+        foreach(Slot slot in slots){
+
+            // TODO remplaçable par un switch ?
+            if(someItem.type == slot.itemType && slot.stillSpace()){
+                slot.AddItem();
                 return;
             }
 
-            if(item._type == CollectibleType.NONE){
-                item.AddNewItem(someItem);
+            if(slot.itemType == CollectibleType.NONE){
+                slot.AddItem(someItem);
                 return;
             }
         }
