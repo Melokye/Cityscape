@@ -1,35 +1,37 @@
 using UnityEngine;
-
-public class PlayerController2D : MonoBehaviour
+using UnityEngine.InputSystem;
+public class PlayerController : MonoBehaviour
 {
     // Public variables
     public float speed = 5f; // The speed at which the player moves
     // public Animator animator; // TODO insert animation
     public Transform actionPoint;
     public float actionRange = 0.5f;
-    public LayerMask soilLayers;
+    public LayerMask soilLayers; // TODO à déplacer ?
 
     // Private variables 
-    private Rigidbody2D rb;     // Reference to the Rigidbody2D component attached to the player
-    private Vector2 movement;   // Stores the direction of player movement
+    private PlayerInputs _controls;
+    private Rigidbody2D _rigidBody;     
+    private Vector2 _movement;   
 
-    void Start(){
-        rb = GetComponent<Rigidbody2D>();                           // Initialize the Rigidbody2D component
-        rb.constraints = RigidbodyConstraints2D.FreezeRotation;     // Prevent the player from rotating
+    void Awake(){
+        _controls = new PlayerInputs();
+
+        // TODO : mettre dans une fonction Move ?
+        _controls.Player.Move.performed += ctx => _movement = ctx.ReadValue<Vector2>();
+        _controls.Player.Move.canceled += ctx => _movement = Vector2.zero;
     }
 
-    void Update(){
-    // TODO : mettre dans une fonction Move ---
-    // TODO : utiliser des Action à la place
-        // Get player input from keyboard or controller
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
-        float verticalInput = Input.GetAxisRaw("Vertical");
+    void Start(){
+        _rigidBody = GetComponent<Rigidbody2D>();
+        _rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;     // Prevent the player from rotating // TODO pas nécessaire ?
+    }
 
-        // Set movement direction based on input
-        movement = new Vector2(horizontalInput, verticalInput);
-        // Optionally rotate the player based on movement direction
-        RotatePlayer(horizontalInput, verticalInput);
-    // ---
+
+    void Update(){
+
+        // Rotate the player based on movement direction
+        RotatePlayer(_movement.x, _movement.y);
 
         // TODO : dépend du type d'objet que le joueur tient
         // TODO : utiliser des triggers
@@ -44,7 +46,7 @@ public class PlayerController2D : MonoBehaviour
 
     void FixedUpdate(){
         // Apply movement to the player in FixedUpdate for physics consistency
-        rb.linearVelocity = movement * speed;
+        _rigidBody.linearVelocity = _movement * speed;
     }
 
     void RotatePlayer(float x, float y)
@@ -96,5 +98,13 @@ public class PlayerController2D : MonoBehaviour
     void OnDrawGizmosSelected(){
         if(actionPoint == null) return;
         Gizmos.DrawWireSphere(actionPoint.position, actionRange);
+    }
+
+    void OnEnable(){
+        _controls.Player.Enable();
+    }
+
+    void OnDisable(){
+        _controls.Player.Disable();
     }
 }
