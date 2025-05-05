@@ -6,14 +6,19 @@ public class Inventory_UI : MonoBehaviour
 {
     public GameObject inventoryPanel; // TODO automatisable ?
     public Player player;
+
     public List<Slot_UI> slots = new List<Slot_UI>();
 
     void Start(){
         inventoryPanel.SetActive(false);
-        // for(int i = 0; i < player.inventory.slots.Count; i++){
-        //     slots.Add(new Slot_UI());
-        //     // TODO add component
-        // }
+        Transform slots_ui = inventoryPanel.transform.Find("Slots");
+        for(int i = 0; i < player.inventory.slots.Count; i++){
+            // GameObject child = new GameObject("Slot_UI");
+            // child.transform.SetParent(slots_ui);
+            // slots.Add(child);
+            slots.Add(slots_ui.GetChild(i).GetComponent<Slot_UI>());
+            // TODO add component
+        }
     }
 
     void Update()
@@ -26,11 +31,17 @@ public class Inventory_UI : MonoBehaviour
     public void ToggleInventory(){
         inventoryPanel.SetActive(!inventoryPanel.activeSelf);
         if(inventoryPanel.activeSelf){
-            Setup(); // TODO rename ?
+            Refresh();
         }
     }
 
-    void Setup(){
+    public void Remove(int slotID){
+        // TODO insert slotID dans les attributs directement
+        player.inventory.Remove(slotID);
+        Refresh();
+    }
+
+    void Refresh(){
         // if(slots.Count != player.inventory.slots.Count){return;}
 
         // TODO possible de fusionner directement de façon opti ?

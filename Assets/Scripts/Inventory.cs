@@ -16,7 +16,7 @@ public class Inventory
         public Slot(Collectible someItem = null){
             if(someItem != null){
                 itemType = someItem.type;
-                itemIcon = someItem.icon;
+                itemIcon = someItem.GetSprite();
             }else{
                 // TODO améliorable ?
                 itemType = CollectibleType.NONE;
@@ -35,8 +35,18 @@ public class Inventory
 
         public void AddItem(Collectible someItem){
             itemType = someItem.type;
-            itemIcon = someItem.icon;
+            itemIcon = someItem.GetSprite();
             AddItem();
+        }
+
+        public void RemoveItem(){
+            if(_count > 0){
+                _count--;
+                if(_count == 0){
+                    itemType = CollectibleType.NONE;
+                    itemIcon = null;
+                }
+            }
         }
     }
 
@@ -65,5 +75,9 @@ public class Inventory
                 return;
             }
         }
+    }
+
+    public void Remove(int index){
+        slots[index].RemoveItem();
     }
 }

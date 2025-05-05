@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class Collectible : MonoBehaviour
 {
-    public CollectibleType type = CollectibleType.NONE;
-    public Sprite icon;
+    private CollectibleType type = CollectibleType.NONE;
+    private Sprite _icon;
     // public float rotationSpeed = 0.5f;
     // public GameObject onCollectEffect;
 
-    // Update is called once per frame
+    void Start(){
+        _icon = GetComponent<SpriteRenderer>().sprite;
+    }
     void Update()
     {
         // transform.Rotate(0, 0, rotationSpeed);
@@ -25,6 +27,10 @@ public class Collectible : MonoBehaviour
             // Instantiate the particle effect
             // Instantiate(onCollectEffect, transform.position, transform.rotation);
         }
+    }
+
+    public Sprite GetSprite(){
+        return _icon;
     }
 }
 
