@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Collectible : MonoBehaviour
 {
-    private CollectibleType type = CollectibleType.NONE;
+    public CollectibleType type = CollectibleType.NONE;
     private Sprite _icon;
     // public float rotationSpeed = 0.5f;
     // public GameObject onCollectEffect;
