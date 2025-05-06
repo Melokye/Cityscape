@@ -1,38 +1,27 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-public class PlayerController : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     // Public variables
-    public Animator animator; // TODO insert animation
+    public Animator animator; // TODO private
+    
+    // TODO à garder ?
     public Transform actionPoint;
     public float actionRange = 0.5f;
     public LayerMask soilLayers; // TODO à déplacer ?
 
-    // Private variables 
-    private PlayerInputs _controls;
     private Rigidbody2D _rigidBody;
     private Vector2 _direction;
     private float _speed = 5f; // The speed at which the player moves
 
-
-    void Awake(){
-        _controls = new PlayerInputs();
-
-        // TODO : mettre dans une fonction Move ?
-        _controls.Player.Move.performed += ctx => _direction = ctx.ReadValue<Vector2>();
-        _controls.Player.Move.canceled += ctx => _direction = Vector2.zero;
-    }
-
     void Start(){
         _rigidBody = GetComponent<Rigidbody2D>();
-        _rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;     // Prevent the player from rotating // TODO pas nécessaire ?
+        _rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
-
     void Update(){
-
         AnimateMovement();
-        
+
         // TODO : dépend du type d'objet que le joueur tient
         // TODO : utiliser des triggers
         if(Input.GetKeyDown(KeyCode.Space)){
@@ -44,14 +33,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void FixedUpdate(){
+    public void Move(Vector2 aDirection){
         // Apply movement to the player in FixedUpdate for physics consistency
-        _rigidBody.linearVelocity = _direction * _speed;
+        _rigidBody.linearVelocity = aDirection * _speed;
+        _direction = aDirection;
     }
 
     void AnimateMovement(){
         if(animator == null){ return; }
 
+        // TODO supp _direction ?
         if(_direction.magnitude > 0){
             animator.SetBool("isMoving", true);
             animator.SetFloat("horizontal", _direction.x);
@@ -92,19 +83,5 @@ public class PlayerController : MonoBehaviour
             foreach(Collider2D soil in soils){
                 soil.GetComponent<Soil>().Harvest();
             }
-    }
-
-    // trace le périmètre de l'objet, pour du débug
-    void OnDrawGizmosSelected(){
-        if(actionPoint == null) return;
-        Gizmos.DrawWireSphere(actionPoint.position, actionRange);
-    }
-
-    void OnEnable(){
-        _controls.Player.Enable();
-    }
-
-    void OnDisable(){
-        _controls.Player.Disable();
     }
 }
