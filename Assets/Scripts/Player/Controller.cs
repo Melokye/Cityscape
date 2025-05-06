@@ -10,8 +10,10 @@ public class Controller : MonoBehaviour
         _controls = new PlayerInputs();
         _movement = GetComponent<PlayerMovement>();
 
-        _controls.Player.Move.performed += ctx => _moveInput = ctx.ReadValue<Vector2>();
-        _controls.Player.Move.canceled += ctx => _moveInput = Vector2.zero;
+        _controls.Player.Move.performed += ctx => {_moveInput = ctx.ReadValue<Vector2>();};
+        _controls.Player.Move.canceled  += ctx => {_moveInput = Vector2.zero;};
+    
+        _controls.Player.Inventory.performed += ctx => {UIManager.instance.ToggleInventory();};
     } 
 
     void FixedUpdate(){

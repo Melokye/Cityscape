@@ -2,15 +2,15 @@ using UnityEngine;
 using System.Collections.Generic;
 
 [System.Serializable]
-public class Inventory_UI : MonoBehaviour
+public class Inventory_UI : BaseUI
 {
-    public GameObject inventoryPanel; // TODO automatisable ?
+    public GameObject inventoryPanel; // TODO private
     public Player player;
 
     public List<Slot_UI> slots = new List<Slot_UI>();
 
     void Start(){
-        inventoryPanel.SetActive(false);
+        Close();
         Transform slots_ui = inventoryPanel.transform.Find("Slots");
         for(int i = 0; i < player.inventory.slots.Count; i++){
             // GameObject child = new GameObject("Slot_UI");
@@ -21,18 +21,9 @@ public class Inventory_UI : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Tab)){
-            ToggleInventory();
-        }
-    }
-
-    public void ToggleInventory(){
-        inventoryPanel.SetActive(!inventoryPanel.activeSelf);
-        if(inventoryPanel.activeSelf){
-            Refresh();
-        }
+    public override void Open() {
+        gameObject.SetActive(true);
+        Refresh(); // TODO à appeler à un autre moment => supp override
     }
 
     public void Remove(int slotID){
