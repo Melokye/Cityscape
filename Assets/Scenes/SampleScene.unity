@@ -1378,17 +1378,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3794296593216182714, guid: df9f82771a6bdc640896b4417edce06a, type: 3}
   m_PrefabInstance: {fileID: 3488820357326607541}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &327283399 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4631885539589925677, guid: df9f82771a6bdc640896b4417edce06a, type: 3}
-  m_PrefabInstance: {fileID: 3488820357326607541}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce4650a5a989531408e5f7dbc9edcd4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &380684887
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1737,7 +1726,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a037bad36ce28bb4eb02a3ae8f7c3885, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 1
+  type: 0
 --- !u!58 &440026050
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1843,6 +1832,65 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1210579208}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &503202780
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 503202783}
+  - component: {fileID: 503202782}
+  - component: {fileID: 503202781}
+  m_Layer: 0
+  m_Name: Game Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &503202781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 503202780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe2672a2bc187c244a567fa98da96f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectableItems:
+  - {fileID: 14657506791591029, guid: fbc96febb0879b141a7a9873c48b7a2a, type: 3}
+--- !u!114 &503202782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 503202780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2ddf97321d2d6e4f8e14556ce17c082, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &503202783
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 503202780}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.04456, y: -1.3620529, z: 0.049875434}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
@@ -4790,17 +4838,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryPanel: {fileID: 1043149158}
   player: {fileID: 292829618}
-  slots:
-  - {fileID: 327283399}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  slots: []
 --- !u!1 &1731009427
 GameObject:
   m_ObjectHideFlags: 0
@@ -5455,7 +5493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a037bad36ce28bb4eb02a3ae8f7c3885, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 1
+  type: 0
 --- !u!58 &1830247530
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -6590,3 +6628,4 @@ SceneRoots:
   - {fileID: 1758492912}
   - {fileID: 2008688708}
   - {fileID: 758340877}
+  - {fileID: 503202783}

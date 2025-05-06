@@ -9,6 +9,18 @@ public class Collectible : MonoBehaviour
     // public float rotationSpeed = 0.5f;
     // public GameObject onCollectEffect;
 
+    private Rigidbody2D _rb;
+
+    void Awake(){
+        _rb = GetComponent<Rigidbody2D>();
+    }
+
+    public void DropEffect(Vector2 offset){
+        // _rb.AddForce(offset, ForceMode2D.Impulse);
+        // TODO à réajuster
+    }
+
+
     void Start(){
         _icon = GetComponent<SpriteRenderer>().sprite;
     }
@@ -17,7 +29,7 @@ public class Collectible : MonoBehaviour
         // transform.Rotate(0, 0, rotationSpeed);
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
+    void OnTriggerEnter2D(Collider2D other) {
         Player player = other.GetComponent<Player>();
 
         if (player != null) { // TODO null non nécessaire
