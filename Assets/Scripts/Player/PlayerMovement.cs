@@ -2,26 +2,22 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
-    // Public variables
-    public Animator animator; // TODO private
     
     // TODO à garder ?
     public Transform actionPoint;
     public float actionRange = 0.5f;
     public LayerMask soilLayers; // TODO à déplacer ?
 
+    [SerializeField] private Animator _animator;
     private Rigidbody2D _rigidBody;
-    private Vector2 _direction;
     private float _speed = 5f; // The speed at which the player moves
-
+    
     void Start(){
         _rigidBody = GetComponent<Rigidbody2D>();
         _rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
     void Update(){
-        AnimateMovement();
-
         // TODO : dépend du type d'objet que le joueur tient
         // TODO : utiliser des triggers
         if(Input.GetKeyDown(KeyCode.Space)){
@@ -36,19 +32,19 @@ public class PlayerMovement : MonoBehaviour
     public void Move(Vector2 aDirection){
         // Apply movement to the player in FixedUpdate for physics consistency
         _rigidBody.linearVelocity = aDirection * _speed;
-        _direction = aDirection;
+        AnimateMovement(aDirection);
     }
 
-    void AnimateMovement(){
-        if(animator == null){ return; }
+    void AnimateMovement(Vector2 aDirection){
+        if(_animator == null){ return; }
 
-        // TODO supp _direction ?
-        if(_direction.magnitude > 0){
-            animator.SetBool("isMoving", true);
-            animator.SetFloat("horizontal", _direction.x);
-            animator.SetFloat("vertical", _direction.y);
+        // TODO alternative possible pour les Set ?
+        if(aDirection.magnitude > 0){
+            _animator.SetBool("isMoving", true);
+            _animator.SetFloat("horizontal", aDirection.x);
+            _animator.SetFloat("vertical", aDirection.y);
         }else{
-            animator.SetBool("isMoving", false);
+            _animator.SetBool("isMoving", false);
         }
     }
     void Watering(){ // TODO fonction abstraite -> Action

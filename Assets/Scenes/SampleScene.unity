@@ -1085,9 +1085,10 @@ GameObject:
   m_Component:
   - component: {fileID: 292829614}
   - component: {fileID: 292829615}
-  - component: {fileID: 292829616}
   - component: {fileID: 292829617}
+  - component: {fileID: 292829616}
   - component: {fileID: 292829618}
+  - component: {fileID: 292829619}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1151,12 +1152,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b951133536df9224fb6fb38875d91f58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 29263733}
   actionPoint: {fileID: 1499801343}
   actionRange: 0.25
   soilLayers:
     serializedVersion: 2
     m_Bits: 64
+  _animator: {fileID: 29263733}
 --- !u!61 &292829617
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1237,6 +1238,18 @@ MonoBehaviour:
       itemIcon: {fileID: 0}
       _count: 0
       _maxAllowed: 0
+--- !u!114 &292829619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292829612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc68a85f73989754f910ffba2746e69d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &307416345
 GameObject:
   m_ObjectHideFlags: 0
@@ -3891,7 +3904,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1499801343
 Transform:
   m_ObjectHideFlags: 0
