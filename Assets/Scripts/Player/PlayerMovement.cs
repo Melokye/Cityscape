@@ -3,10 +3,11 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     
-    // TODO à garder ?
-    public Transform actionPoint;
-    public float actionRange = 0.5f;
-    public LayerMask soilLayers; // TODO à déplacer ?
+    // TODO à garder ? -> Solution temporaire
+    [SerializeField] private Transform _actionPoint;
+    [SerializeField] private float _actionRange = 0.5f;
+    private Vector3 _pointOffset;
+    // --- 
 
     [SerializeField] private Animator _animator;
     private Rigidbody2D _rigidBody;
@@ -15,24 +16,33 @@ public class PlayerMovement : MonoBehaviour
     void Start(){
         _rigidBody = GetComponent<Rigidbody2D>();
         _rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        _pointOffset = _actionPoint.position - transform.position;
     }
 
     void Update(){
         // TODO : dépend du type d'objet que le joueur tient
         // TODO : utiliser des triggers
-        if(Input.GetKeyDown(KeyCode.Space)){
-            Watering();
-        }else if(Input.GetKeyDown(KeyCode.Keypad1)){
-            Seed();
-        }else if(Input.GetKeyDown(KeyCode.Keypad2)){
-            Harvest();
-        }
+        // if(Input.GetKeyDown(KeyCode.Space)){
+        //     Watering();
+        // }else if(Input.GetKeyDown(KeyCode.Keypad1)){
+        //     Seed();
+        // }else if(Input.GetKeyDown(KeyCode.Keypad2)){
+        //     Harvest();
+        // }
     }
 
     public void Move(Vector2 aDirection){
         // Apply movement to the player in FixedUpdate for physics consistency
         _rigidBody.linearVelocity = aDirection * _speed;
         AnimateMovement(aDirection);
+
+        _pointOffset = _actionPoint.position - transform.position;
+        _actionPoint.position = transform.position + _pointOffset;
+    }
+
+    public Vector2 GetPosition(){
+        // return _rigidBody.position;
+        return _actionPoint.position;
     }
 
     void AnimateMovement(Vector2 aDirection){
@@ -47,6 +57,8 @@ public class PlayerMovement : MonoBehaviour
             _animator.SetBool("isMoving", false);
         }
     }
+
+    /*
     void Watering(){ // TODO fonction abstraite -> Action
     // TODO animation
         // animator.SetTrigger("Watering");  
@@ -80,4 +92,12 @@ public class PlayerMovement : MonoBehaviour
                 soil.GetComponent<Soil>().Harvest();
             }
     }
+    */
+
+    // trace le périmètre de l'objet, pour du débug
+    void OnDrawGizmosSelected(){
+        if(_actionPoint == null) return;
+        Gizmos.DrawWireSphere(_actionPoint.position, _actionRange);
+    }
+
 }

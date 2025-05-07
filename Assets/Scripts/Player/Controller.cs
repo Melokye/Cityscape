@@ -14,6 +14,10 @@ public class Controller : MonoBehaviour
         _controls.Player.Move.canceled  += ctx => {_moveInput = Vector2.zero;};
     
         _controls.Player.Inventory.performed += ctx => {UIManager.instance.ToggleInventory();};
+        
+        _controls.Player.Interact.performed += ctx => {
+            GameManager.instance.ActiveInteraction(_movement.GetPosition(), _moveInput);           
+        };
     } 
 
     void FixedUpdate(){
