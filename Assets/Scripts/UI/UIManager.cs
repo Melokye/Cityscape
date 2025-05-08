@@ -1,55 +1,31 @@
 using UnityEngine;
-using System.Collections.Generic;
 
-public class UIManager : MonoBehaviour
+// TODO rename into GameUIMangager
+public class UIManager : BaseUIManager
 {
-    public static UIManager instance;
+    public static UIManager instance; // TODO a supp 
 
-    // TODO récupérer directement les enfants
-    [SerializeField] private Inventory_UI _inventory;
+    // TODO récupérer directement les enfants ?
+    [SerializeField] private BaseUI _inventory;
+    // TODO [SerializeField] private BaseUI _pauseMenuUI;
 
-    private Stack<BaseUI> _uiStack = new Stack<BaseUI>();
-
-    private void Awake(){
-        if (instance != null && instance != this){
-            Destroy(gameObject);
-        }else{
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+    void Awake()
+    {
+        instance = this;
+    }
+    void Start(){
+        #if UNITY_EDITOR
+        DebugTool.CheckSerializeField(this);
+        #endif
     }
 
     public void ToggleInventory(){
-        if(_uiStack.Count > 0 && _uiStack.Peek() == _inventory){
+        Debug.Assert(_inventory != null, "Le champ '_inventory' n'est pas assigné dans l'inspecteur !");
+
+        if(GetCurrentUI() == _inventory){
             CloseCurrentUI();
         }else{
             OpenUI(_inventory);
         }
     }
-
-    public void OpenUI(BaseUI ui){
-        if (_uiStack.Count > 0) {
-            _uiStack.Peek().Close();
-        }
-
-        _uiStack.Push(ui);
-        ui.Open();
-    }
-
-    public void CloseCurrentUI(){
-        if (_uiStack.Count == 0) return;
-
-        _uiStack.Pop().Close();
-
-        if (_uiStack.Count > 0){
-            _uiStack.Peek().Open();
-        }
-    }
-
-    public void CloseAllUIs(){
-        while (_uiStack.Count > 0) {
-            _uiStack.Pop().Close();
-        }
-    }
-    
 }

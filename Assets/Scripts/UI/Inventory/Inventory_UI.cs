@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-[System.Serializable]
+[System.Serializable] // TODO delete
 public class Inventory_UI : BaseUI
 {
     public GameObject inventoryPanel; // TODO private
