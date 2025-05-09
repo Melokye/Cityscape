@@ -4,7 +4,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance; 
 
-    // TODO : liste de ses enfants, mettre en privé ?
+    // TODO : liste de ses enfants, mettre en privé SerializeField ?
     public ItemManager itemManager;
     public TileManager tileManager;
 

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Collectible : MonoBehaviour
 {
+    // TODO SerializeField private 
     public CollectibleType type = CollectibleType.NONE;
     private Sprite _icon;
     // public float rotationSpeed = 0.5f;

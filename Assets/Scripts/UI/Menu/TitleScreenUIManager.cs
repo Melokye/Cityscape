@@ -18,7 +18,8 @@ public class TitleScreenUIManager : BaseUIManager
     public void CloseOptions() => CloseCurrentUI();
 
     public void LoadSceneFromName(string aSceneName){
-        // TODO à mettre dans un fichier à part
+        // TODO à mettre dans un fichier à part, 
+        // notamment pour faire des chargements asynchrones
         SceneManager.LoadScene(aSceneName);
     }
 

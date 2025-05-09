@@ -5,9 +5,11 @@ using System.Collections.Generic;
 public class Inventory_UI : BaseUI
 {
     public GameObject inventoryPanel; // TODO private
-    public Player player;
 
-    public List<Slot_UI> slots = new List<Slot_UI>();
+    // TODO pas nécessaire ? seulement besoin de Inventory (pour les réutiliser dans des magasins par exemple)
+    public Player player; // TODO private, serializableField à la limite
+
+    public List<Slot_UI> slots = new List<Slot_UI>(); // TODO private
 
     void Start(){
         Close();
@@ -16,18 +18,19 @@ public class Inventory_UI : BaseUI
             // GameObject child = new GameObject("Slot_UI");
             // child.transform.SetParent(slots_ui);
             // slots.Add(child);
+
+            // TODO solution temporaire pour suivre le tuto
             slots.Add(slots_ui.GetChild(i).GetComponent<Slot_UI>());
-            // TODO add component
         }
     }
 
     public override void Open() {
         gameObject.SetActive(true);
-        Refresh(); // TODO à appeler à un autre moment => supp override
+        Refresh(); // TODO à appeler à un autre moment (AddItem)=> supp override
     }
 
     public void Remove(int slotID){
-        // TODO insert slotID dans les attributs directement
+        // TODO insert slotID dans les attributs directement lors de la création des slots
         // TODO trouver une alternative pour itemToDrop
         Collectible itemToDrop = 
             GameManager.instance.itemManager.GetItemByType(player.inventory.slots[slotID].itemType);

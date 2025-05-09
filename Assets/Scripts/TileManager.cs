@@ -3,7 +3,7 @@ using UnityEngine.Tilemaps;
 
 public class TileManager : MonoBehaviour
 {
-    [SerializeField] private Tilemap interactableMap;
+    [SerializeField] private Tilemap interactableMap; // TODO rename _interactableMap
 
     void Start()
     {

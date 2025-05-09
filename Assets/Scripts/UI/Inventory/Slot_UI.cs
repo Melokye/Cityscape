@@ -2,10 +2,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-[System.Serializable]
+[System.Serializable] // TODO à supp
 public class Slot_UI : MonoBehaviour
 {
     // TODO récupérable automatiquement ?
+    // TODO private
     public Image itemIcon;
     public TextMeshProUGUI quantityText;
 

@@ -8,6 +8,7 @@ public class Inventory
     public class Slot{
         // TODO bonne idée de faire ça ? -> créer un script à part ?
         // TODO possible de combiner itemType et itemIcon ?
+        // TODO rendre les attributs privés
         public CollectibleType itemType;
         public Sprite itemIcon; 
         public int _count;
@@ -18,9 +19,7 @@ public class Inventory
                 itemType = someItem.type;
                 itemIcon = someItem.GetSprite();
             }else{
-                // TODO améliorable ?
-                itemType = CollectibleType.NONE;
-                itemIcon = null;
+                ClearItem();
             }
             _count = 0;
             _maxAllowed = 10;
@@ -43,10 +42,15 @@ public class Inventory
             if(_count > 0){
                 _count--;
                 if(_count == 0){
-                    itemType = CollectibleType.NONE;
-                    itemIcon = null;
+                    ClearItem();
                 }
             }
+        }
+
+        private void ClearItem(){
+            itemType = CollectibleType.NONE;
+            itemIcon = null;
+            _count = 0;
         }
     }
 
@@ -60,11 +64,7 @@ public class Inventory
 
     public void Add(Collectible someItem){
         // TODO return bool?
-        // TODO utiliser un dictionnaire à la place ?
-        // public Dictionary<CollectibleType, int> _slots = new Dictionary<CollectibleType, int>();
         foreach(Slot slot in slots){
-
-            // TODO remplaçable par un switch ?
             if(someItem.type == slot.itemType && slot.stillSpace()){
                 slot.AddItem();
                 return;
